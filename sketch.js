@@ -11,6 +11,13 @@ var pc = 0;
 //reset
 var resetBtn;
 
+//cars
+var car1, car2;
+var cars = [];
+
+//initional
+var initional;
+
 function setup(){
     createCanvas(windowWidth, windowHeight);
 
@@ -66,16 +73,49 @@ function setup(){
     resetBtn.mousePressed(function() {
         db.ref("/").update({gameState: 0, playerCount:0});
         db.ref("players").remove();
-    })
+    });
+
+    //cars
+    car1 = createSprite(width/3,height/1.2,20,40);
+    car2 = createSprite(width/2,height/1.2,20,40);
+
+    cars = [car1,car2];
 }
 
 function draw(){
+
+    background("fff");
 
     if(pc == 2)
     {
         gs = 1;
         db.ref("/").update({gameState: gs});
+
+    } 
+
+    if(gs == 1 && initional == undefined) {
+        db.ref("players").on("value",function(data){
+            initional = data.val();
+        });
     }
 
+    if(gs == 1) {
+        
+
+        var x = width/2;
+        var index = 0;
+        for(var i in initional)
+        {
+            cars[index].x = x;
+            x = x+100;
+
+            cars[index].y = initional[i].y;
+
+            index+=1;
+        }
+        drawSprites();
+    }
+
+   
 
 }
