@@ -91,7 +91,12 @@ function draw(){
         gs = 1;
         db.ref("/").update({gameState: gs});
 
-    } 
+        car1.visible = true;
+        car2.visible = true;
+    } else {
+        car1.visible = false;
+        car2.visible = false;
+    }
 
     if(gs == 1 && initional == undefined) {
         db.ref("players").on("value",function(data){
@@ -113,9 +118,9 @@ function draw(){
 
             index+=1;
         }
-        drawSprites();
+        
     }
 
-   
+    drawSprites();
 
 }
