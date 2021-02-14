@@ -57,7 +57,7 @@ function setup(){
 
         //element
         var greeting = createElement("h3");
-        greeting.html("Welcome, " + inputValue  + "<br>" + "Waiting for other players to join..." );
+        greeting.html("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Welcome," + inputValue  + "<br>" + "Waiting for other players to join..." );
         greeting.style("color","red")
         greeting.position(width/2.6,height/2);
 
