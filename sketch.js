@@ -86,7 +86,7 @@ function draw(){
 
     background("fff");
 
-    if(pc == 2)
+    if(pc === 2)
     {
         gs = 1;
         db.ref("/").update({gameState: gs});
@@ -98,13 +98,13 @@ function draw(){
         car2.visible = false;
     }
 
-    if(gs == 1 && initional == undefined) {
+    if(gs === 1 && initional === undefined) {
         db.ref("players").on("value",function(data){
             initional = data.val();
         });
     }
 
-    if(gs == 1) {
+    if(gs === 1) {
         
 
         var x = width/2;
