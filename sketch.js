@@ -1,22 +1,22 @@
-var title;
-var name1;
-var btn1;
+let title;
+let name1;
+let btn1;
 
-var db;
+let db;
 
 //gameState and playerCount
-var gs = 0;
-var pc = 0;
+let gs = 0;
+let pc = 0;
 
 //reset
-var resetBtn;
+let resetBtn;
 
 //cars
-var car1, car2;
-var cars = [];
+let car1, car2;
+let cars = [];
 
 //initional
-var initional;
+let initional;
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
@@ -53,10 +53,10 @@ function setup(){
         name1.hide();
 
         //input
-        var inputValue = name1.value();
+        let inputValue = name1.value();
 
         //element
-        var greeting = createElement("h3");
+        let greeting = createElement("h3");
         greeting.html("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Welcome," + inputValue  + "<br>" + "Waiting for other players to join..." );
         greeting.style("color","red")
         greeting.position(width/2.6,height/2);
@@ -109,7 +109,7 @@ function draw(){
 
         var x = width/2;
         var index = 0;
-        for(var i in initional)
+        for(let i in initional)
         {
             cars[index].x = x;
             x = x+100;
