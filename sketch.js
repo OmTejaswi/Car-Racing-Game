@@ -1,8 +1,13 @@
 var title;
 var name1;
 var btn1;
+var greeting;
+
+var limit = 0;
 
 var db;
+
+var backGround;
 
 //gameState and playerCount
 var gs = 0;
@@ -22,13 +27,18 @@ var pcData = 0;
 
 var car1Img,car2Img,car3Img,car4Img,trackImg;
 
+var rank = 0;
+var score = [];
+
 function preload() {
     car1Img = loadImage("images/car1.png");
-    car2Img = loadImage("images/car4.png");
-    car3Img = loadImage("images/car2.png");
-    car4Img = loadImage("images/car3.png");
+    car2Img = loadImage("images/car2.png");
+    car3Img = loadImage("images/car3.png");
+    car4Img = loadImage("images/car4.png");
 
     trackImg = loadImage("images/track.jpg");
+
+    backGround = loadImage("images/download.png")
 }
 
 function setup(){
@@ -70,8 +80,8 @@ function setup(){
         var inputValue = name1.value();
 
         //element
-        var greeting = createElement("h3");
-        greeting.html("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Welcome," + inputValue  + "<br>" + "Waiting for other players to join..." );
+        greeting = createElement("h3");
+        greeting.html("<center> Welcome, \n" + inputValue  + "<br>" + "Waiting for other players to join..." );
         greeting.style("color","red")
         greeting.position(width/2.6,height/2);
 
@@ -102,7 +112,7 @@ function setup(){
 
 function draw(){
 
-    background("fff");
+    //background("fff");
 
 
     if(pc === 2)
@@ -115,6 +125,7 @@ function draw(){
     } else {
         car1.visible = false;
         car2.visible = false;
+        background(backGround);
     }
 
     if(gs === 1 && initional === undefined) {
@@ -124,9 +135,14 @@ function draw(){
     }
 
     if(gs === 1) {
-        
 
-        var x = width/2;
+        greeting.hide();
+        title.hide();
+
+              
+        image(trackImg,0,-windowHeight+800,windowWidth,windowWidth*5);
+
+        var x = width/3.7;
         var index = 0;
 
         //initional position
@@ -134,12 +150,13 @@ function draw(){
         {
 
             cars[index].x = x;
-            x = x+100;
+            x = x+200;
 
             cars[index].y = initional[i].y;
 
             if(pcData-1 === index) {
-                camera.position.y = cars[index].y;
+                ellipse(cars[index].x,cars[index].y,60);
+                camera.position.y = cars[index].y-150;
             }
            
             index+=1;
@@ -156,8 +173,21 @@ function draw(){
             });
         }
 
-        image(trackImg,0,-windowHeight+800,windowWidth,windowWidth*5);
-    }
+        if(cars[pcData-1].y <= 290 && limit === 0) {
+            gs = 2;
+            rank+=1;
+            score = [rank];
+            db.ref("/").update({
+                gameState: gs
+            })
+            
+
+
+            limit = 1;
+        }
+
+    } 
+
 
     drawSprites();
 
