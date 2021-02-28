@@ -5,8 +5,20 @@ html, body {
   canvas{
     border: 2px solid black;
   }
+
+  @font-face {
+    font-family: myFirstFont;
+    src: url(Blazed.ttf);
+  }
+  h1{
+    font-size: 50px;
+    font-family: myFirstFont;
+  }
   
-  /* button {
-    
-  } */
+  button {
+    background-color: orange;
+    width: 150px;
+    height: 40px;
+    border-radius: 50px;
+  }
   

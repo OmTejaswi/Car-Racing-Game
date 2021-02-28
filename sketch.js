@@ -17,7 +17,7 @@ var pc = 0;
 var resetBtn;
 
 //cars
-var car1, car2;
+var car1, car2, car3, car4;
 var cars = [];
 
 //initional
@@ -49,10 +49,13 @@ function setup(){
     title = createElement("h1");
     title.html("Car Racing Game");
     //title.style("textAlign",CENTER);
-    title.position(windowWidth/2.6,windowHeight/30);
+    title.position(windowWidth/3.5,windowHeight/30);
 
     name1 = createInput().attribute("placeholder","ENTER YOUR NAME");
     name1.style("textAlign", CENTER);
+    name1.style("borderRadius","50px")
+    name1.style("width","250px")
+    name1.style("height","50px");
     name1.position(windowWidth/2.5,windowHeight/2);
 
 
@@ -68,7 +71,7 @@ function setup(){
 
     //button
     btn1 = createButton("SUBMIT");
-    btn1.position(windowWidth/2.3,windowHeight/1.5);
+    btn1.position((windowWidth/2.3),windowHeight/1.5);
 
     btn1.mousePressed(function() 
     {
@@ -96,14 +99,7 @@ function setup(){
         rank = data.val();
     })
 
-    //reset
-    resetBtn = createButton("Reset");
-    resetBtn.position(width/2.5,height/2);
-    
-    resetBtn.mousePressed(function() {
-        db.ref("/").update({gameState: 0, playerCount:0});
-        db.ref("players").remove();
-    });
+
 
     //cars
     car1 = createSprite(width/3,height/1.2,20,40);
@@ -112,8 +108,14 @@ function setup(){
     car2 = createSprite(width/1.5,height/1.2,20,40);
     car2.addImage(car2Img);
 
+    car3 = createSprite(width/3,height/1.2,20,40);
+    car3.addImage(car3Img);
 
-    cars = [car1,car2];
+    car4 = createSprite(width/1.5,height/1.2,20,40);
+    car4.addImage(car4Img);
+
+
+    cars = [car1,car2,car3,car4];
 }
 
 function draw(){
@@ -121,19 +123,23 @@ function draw(){
     //background("fff");
 
 
-    if(pc === 2)
+    if(pc === 4)
     {
         db.ref("/").update({gameState: gs});
 
         car1.visible = true;
         car2.visible = true;
+        car3.visible = true;
+        car4.visible = true;
     } else {
         car1.visible = false;
         car2.visible = false;
+        car3.visible = false;
+        car4.visible = false;
         background(backGround);
     }
 
-    if(pc === 2 && gs===0) {
+    if(pc === 4 && gs===0) {
         gs = 1;
     }
  
@@ -144,9 +150,9 @@ function draw(){
     }
 
     if(gs === 1) {
+      greeting.hide();
 
-        greeting.hide();
-        title.hide();
+      background("#4B4B4B");
 
               
         image(trackImg,0,-windowHeight+800,windowWidth,windowWidth*5);
@@ -164,8 +170,21 @@ function draw(){
             cars[index].y = initional[i].y;
 
             if(pcData-1 === index) {
-                ellipse(cars[index].x,cars[index].y,60);
                 camera.position.y = cars[index].y-150;
+
+                if(cars[index] === car1) {
+                    fill("white");
+                    ellipse(cars[index].x,cars[index].y,60);
+                } else if(cars[index] === car2) {
+                    fill("red");
+                    ellipse(cars[index].x,cars[index].y,60);
+                } else if(cars[index] === car3) {
+                    fill("blue");
+                    ellipse(cars[index].x,cars[index].y,60);
+                } else if(cars[index] === car4) {
+                    fill("black");
+                    ellipse(cars[index].x,cars[index].y,60);
+                }
             }
            
             index+=1;
@@ -187,7 +206,8 @@ function draw(){
         if(cars[pcData-1].y <= 290 && limit === 0) {
             //gs = 2;
             rank+=1;
-            alertBox = alert("Awesome Your Rank Is"+rank);
+            alertBox = alert("Awesome Your Rank Is "+rank);
+            
             
             
             db.ref("/").update({
@@ -197,14 +217,21 @@ function draw(){
             limit = 1;
         }
 
-        if(rank === 2) {
-            background(0);
-        }
         
     } 
 
+    if(rank === 4) {
+        time();
+    }
+
 
     drawSprites();
+}
 
-    text("rank:"+rank,width/2,height/2)
+function time() {
+    setTimeout(()=>{
+        db.ref("/").update({gameState: 0, playerCount:0, Rank: 0});
+        db.ref("players").remove();
+        window.location.reload();
+    },10000)
 }
