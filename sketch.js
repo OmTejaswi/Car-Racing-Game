@@ -30,6 +30,8 @@ var car1Img,car2Img,car3Img,car4Img,trackImg;
 var rank = 0;
 var score = [];
 
+let alertBox;
+
 function preload() {
     car1Img = loadImage("images/car1.png");
     car2Img = loadImage("images/car2.png");
@@ -90,6 +92,10 @@ function setup(){
 
     });
 
+    db.ref("Rank").on("value", function(data){
+        rank = data.val();
+    })
+
     //reset
     resetBtn = createButton("Reset");
     resetBtn.position(width/2.5,height/2);
@@ -117,7 +123,6 @@ function draw(){
 
     if(pc === 2)
     {
-        gs = 1;
         db.ref("/").update({gameState: gs});
 
         car1.visible = true;
@@ -128,6 +133,10 @@ function draw(){
         background(backGround);
     }
 
+    if(pc === 2 && gs===0) {
+        gs = 1;
+    }
+ 
     if(gs === 1 && initional === undefined) {
         db.ref("players").on("value",function(data){
             initional = data.val();
@@ -164,6 +173,7 @@ function draw(){
         }
 
         //moving
+    if(cars[pcData-1].y >= 270){
         if(keyDown(UP_ARROW))
         {
             cars[pcData-1].y -= 10;
@@ -172,23 +182,29 @@ function draw(){
                 y: cars[pcData-1].y
             });
         }
+    }
 
         if(cars[pcData-1].y <= 290 && limit === 0) {
-            gs = 2;
+            //gs = 2;
             rank+=1;
-            score = [rank];
-            db.ref("/").update({
-                gameState: gs
-            })
+            alertBox = alert("Awesome Your Rank Is"+rank);
             
-
+            
+            db.ref("/").update({
+                Rank: rank
+            });
 
             limit = 1;
         }
 
+        if(rank === 2) {
+            background(0);
+        }
+        
     } 
 
 
     drawSprites();
 
+    text("rank:"+rank,width/2,height/2)
 }
