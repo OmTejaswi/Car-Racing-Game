@@ -233,5 +233,5 @@ function time() {
         db.ref("/").update({gameState: 0, playerCount:0, Rank: 0});
         db.ref("players").remove();
         window.location.reload();
-    },10000)
+    },5000)
 }
